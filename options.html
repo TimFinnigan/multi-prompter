@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Extension Options</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div id="options-root">
+    <h1>Extension Options</h1>
+    
+    <div class="option">
+      <label>
+        <input type="checkbox" id="enabled">
+        Enable extension
+      </label>
+    </div>
+    
+    <div class="option">
+      <label>Theme:</label>
+      <select id="theme">
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+      </select>
+    </div>
+    
+    <button id="save">Save Settings</button>
+    <div id="status"></div>
+  </div>
+  <script src="options.js"></script>
+</body>
+</html>

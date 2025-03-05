@@ -1,0 +1,60 @@
+{
+  "name": "Multi AI Prompter",
+  "description": "Open multiple AI chatbots in a split-screen view to compare responses",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "assets/icons/icon16.png",
+      "32": "assets/icons/icon32.png",
+      "48": "assets/icons/icon48.png",
+      "128": "assets/icons/icon128.png"
+    },
+    "default_title": "Multi AI Prompter"
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "permissions": [
+    "storage",
+    "tabs",
+    "activeTab",
+    "contextMenus",
+    "notifications",
+    "webRequest",
+    "windows",
+    "scripting"
+  ],
+  "host_permissions": [
+    "*://*.google.com/*",
+    "*://*.chatgpt.com/*",
+    "*://*.claude.ai/*"
+  ],
+  "options_page": "options.html",
+  "icons": {
+    "16": "assets/icons/icon16.png",
+    "32": "assets/icons/icon32.png",
+    "48": "assets/icons/icon48.png",
+    "128": "assets/icons/icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.google.com/search*",
+        "*://*.chatgpt.com/*",
+        "*://*.claude.ai/*"
+      ],
+      "js": [
+        "content.js"
+      ]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["split-search.html", "split-search.js"],
+      "matches": ["*://*.google.com/*", "*://*.chatgpt.com/*", "*://*.claude.ai/*"]
+    }
+  ]
+}
