@@ -25,12 +25,15 @@
     "notifications",
     "webRequest",
     "windows",
-    "scripting"
+    "scripting",
+    "notifications"
   ],
   "host_permissions": [
     "*://*.google.com/*",
     "*://*.chatgpt.com/*",
-    "*://*.claude.ai/*"
+    "*://*.claude.ai/*",
+    "*://*.openai.com/*",
+    "*://*.anthropic.com/*"
   ],
   "options_page": "options.html",
   "icons": {
@@ -44,7 +47,9 @@
       "matches": [
         "*://*.google.com/search*",
         "*://*.chatgpt.com/*",
-        "*://*.claude.ai/*"
+        "*://*.claude.ai/*",
+        "*://*.openai.com/*",
+        "*://*.anthropic.com/*"
       ],
       "js": [
         "content.js"
@@ -54,7 +59,7 @@
   "web_accessible_resources": [
     {
       "resources": ["split-search.html", "split-search.js"],
-      "matches": ["*://*.google.com/*", "*://*.chatgpt.com/*", "*://*.claude.ai/*"]
+      "matches": ["*://*.google.com/*", "*://*.chatgpt.com/*", "*://*.claude.ai/*", "*://*.openai.com/*", "*://*.anthropic.com/*"]
     }
   ]
 }

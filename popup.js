@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('Window width:', windowWidth);
     
     // Create ChatGPT window
-    const chatGPTUrl = 'https://chatgpt.com/';
+    const chatGPTUrl = 'https://chat.openai.com/';
     
     console.log('Opening ChatGPT window with URL:', chatGPTUrl);
     chrome.runtime.sendMessage({
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
       console.log('ChatGPT window opened response:', response);
       
       // Create Claude window after ChatGPT window is opened
-      const claudeUrl = 'https://claude.ai/new';
+      const claudeUrl = 'https://claude.ai/chats';
       
       console.log('Opening Claude window with URL:', claudeUrl);
       chrome.runtime.sendMessage({
