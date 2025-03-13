@@ -33,7 +33,13 @@
     "*://*.chatgpt.com/*",
     "*://*.claude.ai/*",
     "*://*.openai.com/*",
-    "*://*.anthropic.com/*"
+    "*://*.anthropic.com/*",
+    "*://*.grok.com/*",
+    "*://grok.com/*",
+    "*://*.grok.x.ai/*",
+    "*://grok.x.ai/*",
+    "*://*.x.ai/*",
+    "*://*.gemini.google.com/*"
   ],
   "options_page": "options.html",
   "icons": {
@@ -49,7 +55,13 @@
         "*://*.chatgpt.com/*",
         "*://*.claude.ai/*",
         "*://*.openai.com/*",
-        "*://*.anthropic.com/*"
+        "*://*.anthropic.com/*",
+        "*://*.grok.com/*",
+        "*://grok.com/*",
+        "*://*.grok.x.ai/*",
+        "*://grok.x.ai/*",
+        "*://*.x.ai/*",
+        "*://*.gemini.google.com/*"
       ],
       "js": [
         "content.js"
@@ -59,7 +71,19 @@
   "web_accessible_resources": [
     {
       "resources": ["split-search.html", "split-search.js"],
-      "matches": ["*://*.google.com/*", "*://*.chatgpt.com/*", "*://*.claude.ai/*", "*://*.openai.com/*", "*://*.anthropic.com/*"]
+      "matches": [
+        "*://*.google.com/*", 
+        "*://*.chatgpt.com/*", 
+        "*://*.claude.ai/*", 
+        "*://*.openai.com/*", 
+        "*://*.anthropic.com/*",
+        "*://*.grok.com/*",
+        "*://grok.com/*",
+        "*://*.grok.x.ai/*",
+        "*://grok.x.ai/*",
+        "*://*.x.ai/*",
+        "*://*.gemini.google.com/*"
+      ]
     }
   ]
 }

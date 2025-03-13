@@ -69,22 +69,78 @@
       box-sizing: border-box;
       font-size: 16px;
     }
+    .ai-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+      justify-content: center;
+    }
+    .ai-option {
+      display: flex;
+      align-items: center;
+      margin-right: 15px;
+    }
+    .ai-option input {
+      margin-right: 5px;
+    }
+    .layout-options {
+      margin-bottom: 20px;
+    }
+    .layout-option {
+      margin-right: 15px;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Multi AI Prompter</h1>
-    <p>Enter a prompt below to send to multiple AI chatbots. The extension will open ChatGPT and Claude in separate windows side by side.</p>
+    <p>Enter a prompt below to send to multiple AI chatbots. The extension will open the selected AI models in separate windows.</p>
     
     <div class="search-inputs">
       <div class="input-group">
-        <label for="leftSearch">Prompt:</label>
-        <input type="text" id="leftSearch" placeholder="Enter your prompt here">
+        <label for="promptInput">Prompt:</label>
+        <input type="text" id="promptInput" placeholder="Enter your prompt here">
       </div>
     </div>
     
+    <div class="ai-options">
+      <div class="ai-option">
+        <input type="checkbox" id="chatgpt" checked>
+        <label for="chatgpt">ChatGPT</label>
+      </div>
+      <div class="ai-option">
+        <input type="checkbox" id="claude" checked>
+        <label for="claude">Claude</label>
+      </div>
+      <div class="ai-option">
+        <input type="checkbox" id="grok" checked>
+        <label for="grok">Grok</label>
+      </div>
+      <div class="ai-option">
+        <input type="checkbox" id="gemini" checked>
+        <label for="gemini">Gemini</label>
+      </div>
+    </div>
+    
+    <div class="layout-options">
+      <label>Layout:</label>
+      <span class="layout-option">
+        <input type="radio" id="layoutGrid" name="layout" value="grid" checked>
+        <label for="layoutGrid">2x2 Grid</label>
+      </span>
+      <span class="layout-option">
+        <input type="radio" id="layoutHorizontal" name="layout" value="horizontal">
+        <label for="layoutHorizontal">Horizontal</label>
+      </span>
+      <span class="layout-option">
+        <input type="radio" id="layoutVertical" name="layout" value="vertical">
+        <label for="layoutVertical">Vertical</label>
+      </span>
+    </div>
+    
     <div class="button-container">
-      <button id="openSplitWindows">Open AI Chatbots</button>
+      <button id="openAIModels">Open AI Models</button>
       <button id="closeButton">Close</button>
     </div>
   </div>
