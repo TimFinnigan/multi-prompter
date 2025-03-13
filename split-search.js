@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const urls = {
       chatgpt: 'https://chat.openai.com/',
       claude: 'https://claude.ai/chat',
-      grok: 'https://grok.x.ai/chat',
+      grok: 'https://grok.com/',
       gemini: 'https://gemini.google.com/app'
     };
     
@@ -125,10 +125,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const model = models[index];
     const position = positions[index];
     
-    console.log(`Opening ${model} window with URL: ${urls[model]}`);
+    // For Grok, append the query parameter directly to the URL
+    let url = urls[model];
+    if (model === 'grok' && prompt) {
+      url = `${urls[model]}?q=${encodeURIComponent(prompt)}`;
+    }
+    
+    console.log(`Opening ${model} window with URL: ${url}`);
     chrome.runtime.sendMessage({
       type: 'OPEN_WINDOW',
-      url: urls[model],
+      url: url,
       left: position.left,
       top: position.top,
       width: width,
