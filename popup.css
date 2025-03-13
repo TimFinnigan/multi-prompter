@@ -153,4 +153,19 @@ input[type="checkbox"], input[type="radio"] {
   margin-right: 6px;
   transform: scale(1.1);
   accent-color: #4285f4;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+input[type="checkbox"]:checked, input[type="radio"]:checked {
+  transform: scale(1.2);
+}
+
+.checkbox-item label, .radio-item label {
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.checkbox-item:hover label, .radio-item:hover label {
+  color: #4285f4;
 }

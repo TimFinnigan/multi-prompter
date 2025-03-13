@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const openAIModelsButton = document.getElementById('openAIModels');
   const settingsButton = document.getElementById('settingsButton');
   const settingsPanel = document.getElementById('settings-panel');
-  const saveSettingsButton = document.getElementById('saveSettings');
   
   // AI model checkboxes
   const chatgptCheckbox = document.getElementById('chatgpt');
@@ -16,6 +15,10 @@ document.addEventListener('DOMContentLoaded', function() {
   // Layout radio buttons
   const layoutGrid = document.getElementById('layoutGrid');
   const layoutHorizontal = document.getElementById('layoutHorizontal');
+  
+  // Get all checkboxes and radio buttons for event listeners
+  const allCheckboxes = [chatgptCheckbox, claudeCheckbox, grokCheckbox, geminiCheckbox];
+  const allRadioButtons = [layoutGrid, layoutHorizontal];
   
   console.log('Popup loaded');
   
@@ -40,10 +43,13 @@ document.addEventListener('DOMContentLoaded', function() {
     settingsPanel.classList.toggle('hidden');
   });
   
-  // Save settings button click handler
-  saveSettingsButton.addEventListener('click', function() {
-    settingsPanel.classList.add('hidden');
-    saveSettings();
+  // Add event listeners to all checkboxes and radio buttons to save settings automatically
+  allCheckboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', saveSettings);
+  });
+  
+  allRadioButtons.forEach(radio => {
+    radio.addEventListener('change', saveSettings);
   });
   
   // Function to save settings to storage
@@ -59,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     
     chrome.storage.local.set({ aiPrompterSettings: settings }, function() {
-      console.log('Settings saved:', settings);
+      console.log('Settings saved automatically:', settings);
     });
   }
   
