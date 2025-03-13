@@ -1,42 +1,51 @@
-# Split Google Search
+# Multi AI Prompter
 
-A Chrome extension created with create-web-extension.
+A Chrome extension that allows you to compare responses from multiple AI chatbots side-by-side in a split-screen view.
+
+![Multi AI Prompter Screenshot](assets/icons/icon128.png)
 
 ## Features
 
-- TypeScript based extension
-- React for UI components
-- Manifest V3
-- Webpack for bundling
+- Compare responses from ChatGPT, Claude, Gemini, and Grok simultaneously
+- Send the same prompt to all supported AI platforms with one click
+- Easily switch between different AI combinations
+- Save time by avoiding the need to open multiple tabs or windows
+- Perfect for research, content creation, programming help, and learning
 
-## Extension Structure
+## Installation
 
-This extension has a dual structure:
+### From Chrome Web Store
 
-1. **Development Structure** (in the `src/` directory):
-   - Source files for development
-   - Used by webpack to build the extension
+1. Visit the Multi AI Prompter page on the Chrome Web Store
+2. Click "Add to Chrome"
+3. Confirm the installation when prompted
 
-2. **Direct Loading Structure** (in the root directory):
-   - Basic files for direct loading in Chrome
-   - Allows loading the extension without building
+### Manual Installation (Developer Mode)
 
-You can choose either approach:
+1. Download or clone this repository
+2. Open Chrome and navigate to `chrome://extensions`
+3. Enable "Developer mode" in the top right corner
+4. Click "Load unpacked" and select this directory
+5. The extension should now be installed and visible in your browser
 
-### Option 1: Direct Loading (Quick Start)
+## How to Use
 
-You can immediately load the extension in Chrome without any build step:
+1. Click the Multi AI Prompter icon in your browser toolbar
+2. Select which AI services you want to compare
+3. Enter your prompt in the input field
+4. Click "Send to All" to send the prompt to all selected AI services
+5. View the responses side-by-side in the split-screen view
 
-1. Open Chrome and navigate to `chrome://extensions`
-2. Enable "Developer mode" in the top right corner
-3. Click "Load unpacked" and select **this directory** (the root of the project)
-4. The extension should now be installed and visible in your browser
+## Supported AI Services
 
-This is useful for quick testing, but doesn't include any advanced features that require building.
+- [ChatGPT](https://chat.openai.com)
+- [Claude](https://claude.ai)
+- [Gemini](https://gemini.google.com)
+- [Grok](https://grok.com)
 
-### Option 2: Development Workflow (Recommended)
+## Privacy
 
-For the full development experience with all features:
+Multi AI Prompter does not collect, store, or transmit any personal data. All interactions happen directly between your browser and the AI services. See our [Privacy Policy](PRIVACY.md) for more details.
 
 ## Development
 
@@ -45,14 +54,7 @@ For the full development experience with all features:
 - Node.js (v14 or higher)
 - npm or yarn
 
-### Quick Start
-
-```bash
-# Install dependencies, build the extension, and show loading instructions
-npm run setup
-```
-
-### Manual Installation
+### Setup
 
 ```bash
 # Install dependencies
@@ -62,7 +64,7 @@ npm install
 ### Build the Extension
 
 ```bash
-# Create a production build (REQUIRED before loading in Chrome)
+# Create a production build
 npm run build
 ```
 
@@ -73,57 +75,34 @@ npm run build
 npm run dev
 ```
 
-> **IMPORTANT**: You must run `npm run build` at least once before loading the extension in Chrome.
-> The `npm run dev` command will watch for changes and rebuild automatically, but you'll need to refresh the extension in Chrome to see the changes.
-
-## Loading the Built Extension in Chrome
-
-1. Open Chrome and navigate to `chrome://extensions`
-2. Enable "Developer mode" in the top right corner
-3. Click "Load unpacked" and select the `dist` directory from this project
-4. The extension should now be installed and visible in your browser
-
-## Troubleshooting
-
-### Counter Not Incrementing
-
-If the counter doesn't increment when clicking the button:
-
-1. **Check Permissions**: Make sure the extension has the "storage" permission in the manifest.json file.
-2. **Reload the Extension**: Try removing the extension and loading it again.
-3. **Check Console**: Open the extension popup, right-click and select "Inspect" to view the console for any errors.
-4. **Reset Storage**: You can reset the extension's storage by going to chrome://extensions, finding your extension, clicking "Details", then "Clear Data".
-5. **Verify Background Script**: The background script should initialize the counter on installation. Check if it's running properly.
-
-### Other Issues
-
-If you encounter other issues:
-
-1. **Check Chrome's Extension Errors**: Go to chrome://extensions and look for any error messages under your extension.
-2. **Inspect the Popup**: Right-click on the popup and select "Inspect" to access the DevTools for debugging.
-3. **Verify Manifest**: Make sure your manifest.json file is correctly formatted and has all required permissions.
-4. **Check Build Output**: If using the build process, check that the files in the dist directory are correct.
-
 ## Project Structure
 
 ```
+├── assets/             # Static assets like icons
 ├── dist/               # Built extension files (created after build)
 ├── src/                # Source files
-│   ├── assets/         # Static assets like icons
-│   ├── background/     # Background script
-│   ├── content/        # Content scripts
-│   ├── options/        # Options page
-│   ├── popup/          # Popup UI
-│   └── manifest.json   # Extension manifest
-├── assets/             # Assets for direct loading
-├── scripts/            # Helper scripts
-├── manifest.json       # Manifest for direct loading
-├── webpack.config.js   # Webpack configuration
-├── package.json        # Project dependencies and scripts
-├── tsconfig.json      # TypeScript configuration
-└── README.md          # This file
+├── background.js       # Background script
+├── content.js          # Content script
+├── manifest.json       # Extension manifest
+├── options.html        # Options page
+├── options.js          # Options page script
+├── options.css         # Options page styles
+├── popup.html          # Popup UI
+├── popup.js            # Popup script
+├── popup.css           # Popup styles
+├── split-search.html   # Split-screen view
+├── split-search.js     # Split-screen script
+└── README.md           # This file
 ```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
 MIT
+
+## Contact
+
+If you have any questions or suggestions, please open an issue on GitHub or contact us at [Your Contact Email].
