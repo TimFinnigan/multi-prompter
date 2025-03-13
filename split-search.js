@@ -1,7 +1,18 @@
 document.addEventListener('DOMContentLoaded', function() {
-  const promptInput = document.getElementById('leftSearch');
-  const openAIChatbotsButton = document.getElementById('openSplitWindows');
+  const promptInput = document.getElementById('promptInput');
+  const openAIModelsButton = document.getElementById('openAIModels');
   const closeButton = document.getElementById('closeButton');
+  
+  // AI model checkboxes
+  const chatgptCheckbox = document.getElementById('chatgpt');
+  const claudeCheckbox = document.getElementById('claude');
+  const grokCheckbox = document.getElementById('grok');
+  const geminiCheckbox = document.getElementById('gemini');
+  
+  // Layout radio buttons
+  const layoutGrid = document.getElementById('layoutGrid');
+  const layoutHorizontal = document.getElementById('layoutHorizontal');
+  const layoutVertical = document.getElementById('layoutVertical');
   
   // Notify background script that multi AI prompter page is opened
   chrome.runtime.sendMessage({ type: 'SPLIT_SEARCH_OPENED' }, function(response) {
@@ -16,9 +27,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
   
-  // Open AI chatbots button click handler
-  openAIChatbotsButton.addEventListener('click', function() {
-    console.log('Open AI chatbots button clicked');
+  // Open AI models button click handler
+  openAIModelsButton.addEventListener('click', function() {
+    console.log('Open AI models button clicked');
     const prompt = promptInput.value.trim();
     
     if (!prompt) {
@@ -26,57 +37,111 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
     
+    // Check if at least one AI model is selected
+    if (!chatgptCheckbox.checked && !claudeCheckbox.checked && 
+        !grokCheckbox.checked && !geminiCheckbox.checked) {
+      alert('Please select at least one AI model');
+      return;
+    }
+    
     // Save prompt
     chrome.runtime.sendMessage({
       type: 'SAVE_SEARCH_TERMS',
       leftSearch: prompt,
-      rightSearch: prompt
+      rightSearch: prompt,
+      topRightSearch: prompt,
+      bottomRightSearch: prompt
     }, function(response) {
       console.log('Prompt saved:', response);
     });
     
-    // Calculate window dimensions for side-by-side display
+    // Get selected AI models
+    const selectedModels = [];
+    if (chatgptCheckbox.checked) selectedModels.push('chatgpt');
+    if (claudeCheckbox.checked) selectedModels.push('claude');
+    if (grokCheckbox.checked) selectedModels.push('grok');
+    if (geminiCheckbox.checked) selectedModels.push('gemini');
+    
+    // Calculate window dimensions based on layout
     const screenWidth = window.screen.availWidth;
     const screenHeight = window.screen.availHeight;
-    const windowWidth = Math.floor(screenWidth / 2);
+    let windowWidth, windowHeight, positions;
+    
+    if (layoutGrid.checked) {
+      // 2x2 Grid layout
+      windowWidth = Math.floor(screenWidth / 2);
+      windowHeight = Math.floor(screenHeight / 2);
+      
+      // Create fixed positions for a 2x2 grid regardless of how many models are selected
+      positions = [
+        { left: 0, top: 0 },                           // Top-left
+        { left: windowWidth, top: 0 },                 // Top-right
+        { left: 0, top: windowHeight },                // Bottom-left
+        { left: windowWidth, top: windowHeight }       // Bottom-right
+      ];
+      
+      // Only use as many positions as we have models
+      positions = positions.slice(0, selectedModels.length);
+    } else if (layoutHorizontal.checked) {
+      // Horizontal layout
+      windowWidth = Math.floor(screenWidth / selectedModels.length);
+      windowHeight = screenHeight;
+      
+      positions = selectedModels.map((_, index) => ({
+        left: index * windowWidth,
+        top: 0
+      }));
+    } else if (layoutVertical.checked) {
+      // Vertical layout
+      windowWidth = screenWidth;
+      windowHeight = Math.floor(screenHeight / selectedModels.length);
+      
+      positions = selectedModels.map((_, index) => ({
+        left: 0,
+        top: index * windowHeight
+      }));
+    }
     
     console.log('Screen dimensions:', screenWidth, screenHeight);
-    console.log('Window width:', windowWidth);
+    console.log('Window dimensions:', windowWidth, windowHeight);
+    console.log('Selected models:', selectedModels);
     
-    // Create ChatGPT window
-    const chatGPTUrl = 'https://chat.openai.com/';
+    // URLs for each AI model
+    const urls = {
+      chatgpt: 'https://chat.openai.com/',
+      claude: 'https://claude.ai/chat',
+      grok: 'https://grok.x.ai/chat',
+      gemini: 'https://gemini.google.com/app'
+    };
     
-    console.log('Opening ChatGPT window with URL:', chatGPTUrl);
+    // Open windows for selected AI models
+    openAIWindows(selectedModels, urls, positions, windowWidth, windowHeight, prompt);
+  });
+  
+  // Function to open AI windows sequentially
+  function openAIWindows(models, urls, positions, width, height, prompt, index = 0) {
+    if (index >= models.length) return;
+    
+    const model = models[index];
+    const position = positions[index];
+    
+    console.log(`Opening ${model} window with URL: ${urls[model]}`);
     chrome.runtime.sendMessage({
       type: 'OPEN_WINDOW',
-      url: chatGPTUrl,
-      left: 0,
-      top: 0,
-      width: windowWidth,
-      height: screenHeight,
-      aiType: 'chatgpt',
+      url: urls[model],
+      left: position.left,
+      top: position.top,
+      width: width,
+      height: height,
+      aiType: model,
       prompt: prompt
     }, function(response) {
-      console.log('ChatGPT window opened response:', response);
+      console.log(`${model} window opened response:`, response);
       
-      // Create Claude window after ChatGPT window is opened
-      const claudeUrl = 'https://claude.ai/chats';
-      
-      console.log('Opening Claude window with URL:', claudeUrl);
-      chrome.runtime.sendMessage({
-        type: 'OPEN_WINDOW',
-        url: claudeUrl,
-        left: windowWidth,
-        top: 0,
-        width: windowWidth,
-        height: screenHeight,
-        aiType: 'claude',
-        prompt: prompt
-      }, function(response) {
-        console.log('Claude window opened response:', response);
-      });
+      // Open next window
+      openAIWindows(models, urls, positions, width, height, prompt, index + 1);
     });
-  });
+  }
   
   // Close button click handler
   closeButton.addEventListener('click', function() {
