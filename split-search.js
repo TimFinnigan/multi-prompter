@@ -13,6 +13,9 @@ document.addEventListener('DOMContentLoaded', function() {
   const layoutGrid = document.getElementById('layoutGrid');
   const layoutHorizontal = document.getElementById('layoutHorizontal');
   
+  // Focus on the input field when the page loads
+  promptInput.focus();
+  
   // Notify background script that multi AI prompter page is opened
   chrome.runtime.sendMessage({ type: 'SPLIT_SEARCH_OPENED' }, function(response) {
     console.log('Multi AI prompter page opened response:', response);
@@ -23,12 +26,14 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('Got last prompt:', response);
     if (response && response.success && response.lastSearches) {
       promptInput.value = response.lastSearches.left || '';
+      // Place cursor at the end of the text
+      promptInput.setSelectionRange(promptInput.value.length, promptInput.value.length);
     }
   });
   
-  // Open AI models button click handler
-  openAIModelsButton.addEventListener('click', function() {
-    console.log('Open AI models button clicked');
+  // Function to handle form submission
+  function submitPrompt() {
+    console.log('Submitting prompt');
     const prompt = promptInput.value.trim();
     
     if (!prompt) {
@@ -106,6 +111,17 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Open windows for selected AI models
     openAIWindows(selectedModels, urls, positions, windowWidth, windowHeight, prompt);
+  }
+  
+  // Open AI models button click handler
+  openAIModelsButton.addEventListener('click', submitPrompt);
+  
+  // Add event listener for Enter key on the input field
+  promptInput.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      submitPrompt();
+    }
   });
   
   // Function to open AI windows sequentially
