@@ -167,7 +167,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // URLs for each AI model
     const urls = {
       chatgpt: 'https://chat.openai.com/',
-      claude: 'https://claude.ai/chat',
+      claude: 'https://claude.ai/new',
       grok: 'https://grok.com/',
       gemini: 'https://gemini.google.com/app'
     };
