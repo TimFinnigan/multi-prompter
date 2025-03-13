@@ -128,7 +128,13 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     } else if (message.aiType === 'claude') {
       claudePromptInjected = false;
     } else if (message.aiType === 'grok') {
-      grokPromptInjected = false;
+      // For Grok, check if the URL already contains a query parameter
+      if (message.url.includes('?q=')) {
+        console.log('Grok URL already contains query parameter, skipping injection');
+        grokPromptInjected = true;
+      } else {
+        grokPromptInjected = false;
+      }
     } else if (message.aiType === 'gemini') {
       geminiPromptInjected = false;
     }
@@ -751,134 +757,21 @@ function injectPromptToGrok(tabId, prompt) {
     return;
   }
   
-  chrome.tabs.get(tabId, function(tab) {
+  // Instead of trying to inject into the page, navigate directly to the URL with the query
+  const encodedPrompt = encodeURIComponent(prompt);
+  const grokUrl = `https://grok.com/?q=${encodedPrompt}`;
+  
+  console.log(`Navigating Grok tab to URL with query: ${grokUrl}`);
+  
+  chrome.tabs.update(tabId, { url: grokUrl }, function(tab) {
     if (chrome.runtime.lastError) {
-      console.error('Error accessing Grok tab:', chrome.runtime.lastError);
-      grokTabId = null;
-      grokPromptInjected = false;
+      console.error('Error updating Grok tab URL:', chrome.runtime.lastError);
       return;
     }
     
-    chrome.scripting.executeScript({
-      target: { tabId: tabId },
-      function: (promptText) => {
-        console.log('Attempting to inject prompt into Grok with simplified approach:', promptText);
-        
-        // Simple function to wait for an element
-        function waitForElement(selector, maxWait = 10000) {
-          return new Promise((resolve) => {
-            if (document.querySelector(selector)) {
-              return resolve(document.querySelector(selector));
-            }
-            
-            const observer = new MutationObserver(() => {
-              if (document.querySelector(selector)) {
-                observer.disconnect();
-                resolve(document.querySelector(selector));
-              }
-            });
-            
-            observer.observe(document.body, {
-              childList: true,
-              subtree: true
-            });
-            
-            setTimeout(() => {
-              observer.disconnect();
-              resolve(document.querySelector(selector));
-            }, maxWait);
-          });
-        }
-        
-        // Main function to set text and submit
-        async function setGrokText() {
-          try {
-            // First try to find the input field - use the exact selector from the HTML
-            const inputField = await waitForElement('input[placeholder="Ask Grok anything..."], input[name="query"]');
-            
-            if (!inputField) {
-              console.error('Could not find Grok input field');
-              return;
-            }
-            
-            console.log('Found Grok input field:', inputField);
-            
-            // Focus the input field
-            inputField.focus();
-            
-            // Set the value directly
-            inputField.value = promptText;
-            
-            // Dispatch input events
-            inputField.dispatchEvent(new Event('input', { bubbles: true }));
-            inputField.dispatchEvent(new Event('change', { bubbles: true }));
-            
-            console.log('Set Grok text to:', promptText);
-            
-            // Wait a moment for the UI to update
-            setTimeout(async () => {
-              // Try to find the form
-              const form = inputField.closest('form');
-              
-              if (form) {
-                // Try to find the submit button within the form
-                const submitButton = form.querySelector('button[type="submit"]');
-                
-                if (submitButton) {
-                  console.log('Found Grok submit button, clicking it');
-                  submitButton.click();
-                } else {
-                  console.log('Could not find Grok submit button, trying form submit');
-                  
-                  // Try to submit the form
-                  try {
-                    const submitEvent = new Event('submit', {
-                      bubbles: true,
-                      cancelable: true
-                    });
-                    form.dispatchEvent(submitEvent);
-                  } catch (e) {
-                    console.error('Error submitting Grok form:', e);
-                  }
-                  
-                  // Also try Enter key as a fallback
-                  const enterEvent = new KeyboardEvent('keydown', {
-                    key: 'Enter',
-                    code: 'Enter',
-                    keyCode: 13,
-                    which: 13,
-                    bubbles: true,
-                    cancelable: true
-                  });
-                  
-                  inputField.dispatchEvent(enterEvent);
-                }
-              } else {
-                console.log('Could not find Grok form, trying Enter key');
-                
-                // Try to simulate Enter key
-                const enterEvent = new KeyboardEvent('keydown', {
-                  key: 'Enter',
-                  code: 'Enter',
-                  keyCode: 13,
-                  which: 13,
-                  bubbles: true,
-                  cancelable: true
-                });
-                
-                inputField.dispatchEvent(enterEvent);
-              }
-            }, 500);
-          } catch (error) {
-            console.error('Error in Grok text injection:', error);
-          }
-        }
-        
-        // Start the process
-        setGrokText();
-      },
-      args: [prompt]
-    });
+    // Mark as injected since we're using the URL approach
+    grokPromptInjected = true;
+    console.log('Grok prompt injected via URL parameter');
   });
 }
 
