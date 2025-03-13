@@ -23,22 +23,16 @@
     "activeTab",
     "contextMenus",
     "notifications",
-    "webRequest",
     "windows",
-    "scripting",
-    "notifications"
+    "scripting"
   ],
   "host_permissions": [
-    "*://*.google.com/*",
     "*://*.chatgpt.com/*",
     "*://*.claude.ai/*",
     "*://*.openai.com/*",
     "*://*.anthropic.com/*",
     "*://*.grok.com/*",
     "*://grok.com/*",
-    "*://*.grok.x.ai/*",
-    "*://grok.x.ai/*",
-    "*://*.x.ai/*",
     "*://*.gemini.google.com/*"
   ],
   "options_page": "options.html",
@@ -51,16 +45,12 @@
   "content_scripts": [
     {
       "matches": [
-        "*://*.google.com/search*",
         "*://*.chatgpt.com/*",
         "*://*.claude.ai/*",
         "*://*.openai.com/*",
         "*://*.anthropic.com/*",
         "*://*.grok.com/*",
         "*://grok.com/*",
-        "*://*.grok.x.ai/*",
-        "*://grok.x.ai/*",
-        "*://*.x.ai/*",
         "*://*.gemini.google.com/*"
       ],
       "js": [
@@ -72,16 +62,12 @@
     {
       "resources": ["split-search.html", "split-search.js"],
       "matches": [
-        "*://*.google.com/*", 
         "*://*.chatgpt.com/*", 
         "*://*.claude.ai/*", 
         "*://*.openai.com/*", 
         "*://*.anthropic.com/*",
         "*://*.grok.com/*",
         "*://grok.com/*",
-        "*://*.grok.x.ai/*",
-        "*://grok.x.ai/*",
-        "*://*.x.ai/*",
         "*://*.gemini.google.com/*"
       ]
     }
