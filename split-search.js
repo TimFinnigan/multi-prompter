@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', function() {
   // Layout radio buttons
   const layoutGrid = document.getElementById('layoutGrid');
   const layoutHorizontal = document.getElementById('layoutHorizontal');
-  const layoutVertical = document.getElementById('layoutVertical');
   
   // Notify background script that multi AI prompter page is opened
   chrome.runtime.sendMessage({ type: 'SPLIT_SEARCH_OPENED' }, function(response) {
@@ -90,15 +89,6 @@ document.addEventListener('DOMContentLoaded', function() {
       positions = selectedModels.map((_, index) => ({
         left: index * windowWidth,
         top: 0
-      }));
-    } else if (layoutVertical.checked) {
-      // Vertical layout
-      windowWidth = screenWidth;
-      windowHeight = Math.floor(screenHeight / selectedModels.length);
-      
-      positions = selectedModels.map((_, index) => ({
-        left: 0,
-        top: index * windowHeight
       }));
     }
     
