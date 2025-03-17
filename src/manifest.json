@@ -20,8 +20,6 @@
   "permissions": [
     "storage",
     "tabs",
-    "activeTab",
-    "contextMenus",
     "notifications",
     "webRequest",
     "windows"
