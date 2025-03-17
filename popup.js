@@ -90,6 +90,9 @@ document.addEventListener('DOMContentLoaded', function() {
           } else if (settings.layout === 'horizontal') {
             layoutHorizontal.checked = true;
           }
+        } else {
+          // Default to horizontal if no setting is found
+          layoutHorizontal.checked = true;
         }
       }
     });

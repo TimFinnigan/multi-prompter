@@ -26,7 +26,7 @@ When you use our extension to interact with third-party AI services (ChatGPT, Cl
 
 ## Permissions
 
-Our extension requests certain browser permissions (such as activeTab, contextMenus, and storage) to function properly. These permissions are used only to provide the core functionality of comparing AI responses and do not enable data collection.
+Our extension requests certain browser permissions (such as tabs, storage, windows, and scripting) to function properly. These permissions are used only to provide the core functionality of comparing AI responses and do not enable data collection.
 
 ## Changes to This Policy
 
