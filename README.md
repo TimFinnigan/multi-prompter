@@ -4,6 +4,12 @@ A Chrome extension that allows you to compare responses from multiple AI chatbot
 
 ![Multi AI Prompter Screenshot](assets/icons/icon128.png)
 
+## Demo
+
+Watch the extension in action:
+
+[![Multi AI Prompter Demo](https://img.youtube.com/vi/NwKbdyDHUoE/0.jpg)](https://www.youtube.com/watch?v=NwKbdyDHUoE)
+
 ## Features
 
 - Compare responses from ChatGPT, Claude, Gemini, and Grok simultaneously
